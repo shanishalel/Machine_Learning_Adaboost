@@ -13,14 +13,21 @@ class H():
     def sign(self,p):
         sum=0
         for i in range (self.rules):
-            if(self.best_rules[i].is_low(p)):
-                sum-=self.weight_rules[i]
+            if(self.best_rules[i].up):
+                if(self.best_rules[i].is_low(p)):
+                    sum-=self.weight_rules[i]
+                else:
+                    sum+=self.weight_rules[i]
             else:
-                sum+=self.weight_rules[i]
-        if(sum>=0):
-            return 1
-        else:
-            return -1
+                if (self.best_rules[i].is_low(p)):
+                    sum += self.weight_rules[i]
+                else:
+                    sum -= self.weight_rules[i]
+
+            if(sum>=0):
+                return 1
+            else:
+                return -1
 
     def is_right(self,p):
         if(self.sign(p)==p.gender):

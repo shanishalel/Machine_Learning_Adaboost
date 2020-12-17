@@ -44,7 +44,14 @@ def best_line(points):
     best = Line((points[0], points[1]))
     best_rate =line_error(best, points)
     for p in itertools.combinations(points, 2):
-        temp = Line(p)
+        temp = Line(p,True)
+        temp_rate = line_error(temp, points)
+        if (temp_rate < best_rate):
+            best = temp
+            best_rate = temp_rate
+
+    for p in itertools.combinations(points, 2):
+        temp = Line(p,False)
         temp_rate = line_error(temp, points)
         if (temp_rate < best_rate):
             best = temp
@@ -86,7 +93,7 @@ def adaboost(points,rules=8):
     return ans
 
 
-def run_train(points, rules=8,times=100):
+def run_train(points, rules=8,times=10):
     for i in range(1, rules + 1):
         multi_sum = 0
         for j in range(times):
@@ -136,15 +143,13 @@ def run_train(points, rules=8,times=100):
 
 if __name__ == '__main__':
 
-    (failures, tests) = doctest.testmod(report=True)
     print("HC_Body_Temperature :")
 
     f = open("HC_Body_Temperature.txt", "r")
     points = []
     for x in f:
         points.append(Point_for_HC(x))
-    run_train(points, 8, 100)
-
+    run_train(points, 8, 10)
 
 
 

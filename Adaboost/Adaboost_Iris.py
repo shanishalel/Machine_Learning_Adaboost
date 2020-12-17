@@ -91,9 +91,10 @@ def adaboost(points, rules=8):
     return ans
 
 
-def run_train(points, rules=8, times=10):
+def run_train(points, rules=8, times=1):
     for i in range(1, rules + 1):
         multi_sum = 0
+        multi_sum1=0  #shani add
         for j in range(times):
             learn = []
             test = []
@@ -112,16 +113,32 @@ def run_train(points, rules=8, times=10):
                             learn.append(p)
 
             ans_learn = adaboost(learn)
+
             rate = 0
+            rate1=0 #shani add
 
             for p in learn:
                 if ans_learn.is_right(p):
                     rate += 1
-            multi_sum += (rate / len(test) * 100)
+
+            multi_sum += (rate / len(learn) * 100)
+
+            #shani add
+            for p1 in test:
+                if ans_learn.is_right(p1):
+                    rate1 += 1
+            multi_sum1 += (rate1 / len(test) * 100)
+
 
         multi_sum /= times
         print("Train: the rate of success for {} is {} percent ".format(i, multi_sum))
 
+        #shani add
+        multi_sum1 /= times
+        print("Test: the rate of success for {} is {} percent ".format(i, multi_sum1))
+
+"""
+    #shani change yarden need to approved
     print("")
     # on the best rules we get we need to run the point
     for i in range(len(ans_learn.best_rules)):
@@ -136,7 +153,7 @@ def run_train(points, rules=8, times=10):
         multi_sum1 /= times
         print("Test: the rate of success for {} is {} percent ".format(i, multi_sum1))
 
-
+"""
 if __name__ == '__main__':
 
     print("Iris:")
@@ -145,7 +162,7 @@ if __name__ == '__main__':
     points = []
     for x in f:
         points.append(Point_for_Iris(x))
-    run_train(points, 8, 10)
+    run_train(points, 8, 1)
 
 
 

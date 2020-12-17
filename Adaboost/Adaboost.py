@@ -24,7 +24,7 @@ points1.append(p4)
 points1.append(p3)
 """
 
-    # rank the error of the line (if we ronge about the label we add the weight to the rate)
+# rank the error of the line (if we ronge about the label we add the weight to the rate)
 def line_error(line, points):
     rate=0
     for p in points:
@@ -96,6 +96,8 @@ def adaboost(points,rules=8):
 def run_train(points, rules=8,times=10):
     for i in range(1, rules + 1):
         multi_sum = 0
+        multi_sum1=0  #shani add
+
         for j in range(times):
             learn = []
             test = []
@@ -115,16 +117,30 @@ def run_train(points, rules=8,times=10):
 
             ans_learn = adaboost(learn)
             rate = 0
+            rate1 = 0  # shani add
 
             for p in learn:
                 if ans_learn.is_right(p):
                     rate += 1
-            multi_sum += (rate / len(test) * 100)
+            multi_sum += (rate / len(learn) * 100)
+
+            # shani add
+
+            for p1 in test:
+                if ans_learn.is_right(p1):
+                    rate1 += 1
+
 
 
         multi_sum/=times
         print("Train: the rate of success for {} is {} percent ".format(i, multi_sum))
 
+        # shani add
+        multi_sum1 /= times
+        print("Test: the rate of success for {} is {} percent ".format(i, multi_sum1))
+
+
+"""
     print("")
     #on the best rules we get we need to run the point
     for i in range(len(ans_learn.best_rules)):
@@ -137,7 +153,7 @@ def run_train(points, rules=8,times=10):
             multi_sum1+=(rate1/len(test)*100)
         multi_sum1/=times
         print("Test: the rate of success for {} is {} percent ".format(i, multi_sum1))
-
+"""
 
 
 

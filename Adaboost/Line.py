@@ -1,4 +1,4 @@
-from Adaboost.Point import Point_for_HC
+from Point import Point_for_HC
 
 class Line():
     #y=mx+n, pulse=y, temp=x
@@ -23,7 +23,3 @@ class Line():
             return (p1.gender==-1)  ##all the -1 gender is below the line
         else:
             return (p1.gender==1)   ## all the 1 gender is above the line
-
-
-
-

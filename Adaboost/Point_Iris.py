@@ -1,13 +1,13 @@
-#point class to HC
-class Point_for_HC():
 
-    #pulse=y, temp=x
-    def __init__(self, point, pulse=None, gender=None):
+class Point_for_Iris():
 
-        if (pulse == None):  # if its got only one param
+    #sepal =x , petal=y
+    def __init__(self, point, petal_length=None, gender=None):
+
+        if (petal_length == None):  # if its got only one param
             if isinstance(point, str):  # if its line = string from file string constructor
                 arr = point.split()
-                self.temperature = float(arr[0])
+                self.sepal_width = float(arr[0])
                 if (arr[1] == "1"):
                     self.gender = int(arr[1])
                 else:
@@ -23,10 +23,6 @@ class Point_for_HC():
         else:  # got  temperature and pulse - and built the point
             self.temperature = point
             self.gender = gender
-            self.pulse = pulse
+            self.pulse = petal_length
             # self.weight = np.longdouble(1)
             self.weight = 1.0
-
-
-
-

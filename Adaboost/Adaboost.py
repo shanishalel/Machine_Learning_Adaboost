@@ -1,14 +1,13 @@
+
 # got some help from github user we found https://github.com/eliahusatat/Machine-Learning
 import doctest
 import itertools
 import random
 import math
-
 import numpy as np
-
-from Adaboost.Line import Line
-from Adaboost.Point import Point_for_HC
-from Adaboost.H import H
+from Line import Line
+from Point import Point_for_HC
+from H import H
 
 """
 p3=Point_for_HC("5  1   -6")
@@ -55,10 +54,15 @@ def best_line(points):
 
 
 def adaboost(points,rules=8):
-    sum=0
+    n=len(points)
+    w=1/n
+    for p in points:
+        p.weight=w
     best_rules=[]
     weight_rules=[]  #weight=alpha_t
+    alpha_t=0.5
     for i in range (0,rules) :
+        sum = 0
         best_r=best_line(points)  #find the best rule
         best_rules.append(best_r)
         et=line_error(best_r,points)  #getting the error on the points
@@ -77,17 +81,14 @@ def adaboost(points,rules=8):
     ans= H( best_rules,weight_rules,8)
 
     for p in points:
-        p.weight=1/len(points)
+        p.weight=1
 
     return ans
 
 
-def run_train(points, rules=8,times=10):
-    learn_ans=[]
-    test_ans=[]
+def run_train(points, rules=8,times=100):
     for i in range(1, rules + 1):
         multi_sum = 0
-        multi_sum2 = 0
         for j in range(times):
             learn = []
             test = []
@@ -104,45 +105,45 @@ def run_train(points, rules=8,times=10):
                             test.append(p)
                         else:
                             learn.append(p)
+
             ans_learn = adaboost(learn)
-            ans_test=adaboost(test)
             rate = 0
-            rate2=0
+
             for p in learn:
                 if ans_learn.is_right(p):
                     rate += 1
             multi_sum += (rate / len(test) * 100)
 
-            for p2 in test:
-                if ans_test.is_right(p2):
-                    rate2 += 1
-            multi_sum2 += (rate2 / len(test) * 100)
 
-        test_ans.append(multi_sum2)
-        learn_ans.append(multi_sum)
+        multi_sum/=times
+        print("Train: the rate of success for {} is {} percent ".format(i, multi_sum))
 
-    print("learn :")
-    for i in range (rules):
-        print("the rate of success for {} is {} percent ".format(i,learn_ans[i]/times ))
+    print("")
+    #on the best rules we get we need to run the point
+    for i in range(len(ans_learn.best_rules)):
+        multi_sum1=0
+        for j in range(times):
+            rate1 = 0
+            for p in test:
+                if ans_learn.best_rules[i].is_right(p):
+                    rate1+=1
+            multi_sum1+=(rate1/len(test)*100)
+        multi_sum1/=times
+        print("Test: the rate of success for {} is {} percent ".format(i, multi_sum1))
 
 
-    print("test :")
-    for i in range (rules):
-        print("the rate of success for {} is {} percent ".format(i, test_ans[i]/times))
 
 
 if __name__ == '__main__':
 
     (failures, tests) = doctest.testmod(report=True)
-    print("{} failures, {} tests".format(failures, tests))
+    print("HC_Body_Temperature :")
 
     f = open("HC_Body_Temperature.txt", "r")
     points = []
     for x in f:
         points.append(Point_for_HC(x))
-
-    adaboost(points,8)
-    run_train(points, 8, 10)
+    run_train(points, 8, 100)
 
 
 

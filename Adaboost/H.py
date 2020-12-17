@@ -1,6 +1,6 @@
 import doctest
-from Adaboost.Line import Line
-from Adaboost.Point import Point_for_HC
+from Line import Line
+from Point import Point_for_HC
 
 class H():
 
@@ -28,6 +28,3 @@ class H():
         else:
             return False
 
-if __name__ == '__main__':
-    (failures, tests) = doctest.testmod(report=True)
-    print("{} failures, {} tests".format(failures, tests))

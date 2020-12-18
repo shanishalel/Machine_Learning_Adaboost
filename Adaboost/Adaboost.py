@@ -93,7 +93,7 @@ def adaboost(points,rules=8):
     return ans
 
 
-def run_train(points, rules=8,times=1):
+def run_train(points, rules=8,times=10):
     for i in range(1, rules + 1):
 
         multi_sum1=0  #shani add
@@ -121,22 +121,22 @@ def run_train(points, rules=8,times=1):
 
 
             rate+=line_error(ans_learn, test)
-            accu_sum=(rate / 100)
+        accu_sum=(rate / 100)
 
 
             # shani add just to see what the emprical error
-            print("the emprical error on the test : {}".format(accu_sum))
-            print("Train: the rate of sucess from {} is {}".format(i,100*(1-accu_sum)))
+        print("the emprical error on the test : {}".format(accu_sum))
+        print("Train: the rate of sucess from {} is {}".format(i,100*(1-accu_sum)))
 
-       # shani add
-            for p1 in test:
-                 if ans_learn.is_right(p1):
-                       rate1 += 1
-            multi_sum1 += (rate1 / len(test) * 100)
+            # shani add
+    for p1 in test:
+         if ans_learn.is_right(p1):
+             rate1 += 1
+    multi_sum1 += (rate1 / len(test) * 100)
 
         # shani add
-            multi_sum1 /= times
-            print("Test: the rate of success for {} is {} percent ".format(i, multi_sum1))
+    multi_sum1 /= times
+    print("Test: the rate of success for {} is {} percent ".format(i, multi_sum1))
 
 
 
@@ -165,7 +165,7 @@ if __name__ == '__main__':
     points = []
     for x in f:
         points.append(Point_for_HC(x))
-    run_train(points, 8, 1)
+    run_train(points, 8, 10)
 
 
 

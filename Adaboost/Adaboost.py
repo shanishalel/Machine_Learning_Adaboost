@@ -129,14 +129,14 @@ def run_train(points, rules=8,times=10):
         print("Train: the rate of sucess from {} is {}".format(i,100*(1-accu_sum)))
 
             # shani add
-    for p1 in test:
-         if ans_learn.is_right(p1):
-             rate1 += 1
-    multi_sum1 += (rate1 / len(test) * 100)
+        for p1 in test:
+             if ans_learn.is_right(p1):
+                 rate1 += 1
+        multi_sum1 += (rate1 / len(test) * 100)
 
         # shani add
-    multi_sum1 /= times
-    print("Test: the rate of success for {} is {} percent ".format(i, multi_sum1))
+        multi_sum1 /= times
+        print("Test: the rate of success for {} is {} percent ".format(i, multi_sum1))
 
 
 

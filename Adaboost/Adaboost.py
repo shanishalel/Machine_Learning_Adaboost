@@ -93,7 +93,7 @@ def adaboost(points,rules=8):
     return ans
 
 
-def run_train(points, rules=8,times=10):
+def run_train(points, rules=8,times=1):
     for i in range(1, rules + 1):
         multi_sum = 0
         multi_sum1=0  #shani add
@@ -130,6 +130,8 @@ def run_train(points, rules=8,times=10):
                 if ans_learn.is_right(p1):
                     rate1 += 1
 
+        #shani add just to see what the emprical error
+            print("the emprical error : {}".format(line_error(ans_learn, test)))
 
 
         multi_sum/=times
@@ -165,7 +167,7 @@ if __name__ == '__main__':
     points = []
     for x in f:
         points.append(Point_for_HC(x))
-    run_train(points, 8, 10)
+    run_train(points, 8, 1)
 
 
 

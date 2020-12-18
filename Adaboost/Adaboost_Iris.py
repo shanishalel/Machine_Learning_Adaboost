@@ -133,6 +133,9 @@ def run_train(points, rules=8, times=1):
         multi_sum /= times
         print("Train: the rate of success for {} is {} percent ".format(i, multi_sum))
 
+        # shani add just to see what the emprical error
+        print("the emprical error : {}".format(line_error(ans_learn, test)))
+
         #shani add
         multi_sum1 /= times
         print("Test: the rate of success for {} is {} percent ".format(i, multi_sum1))

@@ -118,14 +118,13 @@ def run_train(points, rules=8, times=1):
             rate1=0 #shani add
 
             for p in learn:
-                if ans_learn.is_right(p):
+                if ans_learn.is_right_H(p,i):
                     rate += 1
-
             multi_sum += (rate / len(learn) * 100)
 
-            #shani add
+
             for p1 in test:
-                if ans_learn.is_right(p1):
+                if ans_learn.is_right_H(p1,i):
                     rate1 += 1
             multi_sum1 += (rate1 / len(test) * 100)
 
@@ -133,12 +132,10 @@ def run_train(points, rules=8, times=1):
         multi_sum /= times
         print("Train: the rate of success for {} is {} percent ".format(i, multi_sum))
 
-        # shani add just to see what the emprical error
-        print("the emprical error : {}".format(line_error(ans_learn, test)))
-
         #shani add
         multi_sum1 /= times
         print("Test: the rate of success for {} is {} percent ".format(i, multi_sum1))
+        print("")
 
 """
     #shani change yarden need to approved
@@ -155,7 +152,6 @@ def run_train(points, rules=8, times=1):
             print((rate1 / len(test) * 100))
         multi_sum1 /= times
         print("Test: the rate of success for {} is {} percent ".format(i, multi_sum1))
-
 """
 if __name__ == '__main__':
 
@@ -166,6 +162,3 @@ if __name__ == '__main__':
     for x in f:
         points.append(Point_for_Iris(x))
     run_train(points, 8, 1)
-
-
-

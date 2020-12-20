@@ -94,51 +94,52 @@ def adaboost(points,rules=8):
     return ans
 
 
-def run_train(points, rules=8,times=10):
-    for i in range( 1,rules+1):
-        multi_sum = 0
-        multi_sum1=0
-        for j in range(times):
-            learn = []
-            test = []
-            #filling the 2 list above with the points we get in random way
-            for p in points:
-                rand = random.randint(0, 1)
-                if (len(learn) >= 65):
-                    test.append(p)
+def run_train(points, rules=8,times=100):
+    #for i in range( 1,rules+1):
+    avg1 = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+    avg2 = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+    for j in range(times):
+        learn = []
+        test = []
+        #filling the 2 list above with the points we get in random way
+        for p in points:
+            rand = random.randint(0, 1)
+            if (len(learn) >= 65):
+                test.append(p)
+            else:
+                if (len(test) >= 65):
+                    learn.append(p)
                 else:
-                    if (len(test) >= 65):
-                        learn.append(p)
+                    if (rand == 0):
+                        test.append(p)
                     else:
-                        if (rand == 0):
-                            test.append(p)
-                        else:
-                            learn.append(p)
+                        learn.append(p)
 
-            ans_learn = adaboost(learn)
+        ans_learn = adaboost(learn)
+
+        for i in range (1,rules+1):
             rate = 0.0
             rate1=0.0
-
-
 
             for p in learn:
                 if ans_learn.is_right_H(p,i):
                     rate += 1
-            multi_sum += (rate / len(learn) * 100)
+            #print("avg :{}".format((rate / len(learn)) * 100))
+            avg1[i] += (rate / len(learn)) * 100
 
 
             for p in test:
                 if ans_learn.is_right_H(p,i):
                     rate1 += 1
-            multi_sum1 += (rate1 / len(test) * 100)
+            avg2[i]+=(rate1 / len(test) )* 100
 
-        multi_sum /= times
-        print("Train: the rate of success for {} is {} percent ".format(i, multi_sum))
-
-        multi_sum1 /= times
-        print("Test: the rate of success for {} is {} percent ".format(i, multi_sum1))
+    for i in range(1, 9):
+        avg1[i] /= (times)
+        print("Train: the rate of success for {} is {} percent ".format(i, avg1[i]))
+        # shani add
+        avg2[i] /= times
+        print("Test: the rate of success for {} is {} percent ".format(i, avg2[i]))
         print("")
-
 
 
 """
@@ -166,4 +167,4 @@ if __name__ == '__main__':
     points = []
     for x in f:
         points.append(Point_for_HC(x))
-    run_train(points, 8, 10)
+    run_train(points, 8, 100)
